@@ -1,22 +1,16 @@
 import os
-import pprint
 from itertools import count
 from statistics import mean
 
 import requests
-from dotenv import load_dotenv
 
 from tools import predict_salary
 
 
-load_dotenv()
-
-SJ_API_KEY = os.getenv('SJ_API_KEY')
-
-
-KEYWORDS = ['Python', 'Java', 'Javascript', 'C++', 'DWDM', 'базовые станции']
-
 def get_sj_vacancies(keyword: str, api_key: str):
+    '''get list of vacancies from SJ API by keyword
+    for Moscow region
+    '''
     url = 'https://api.superjob.ru/2.0/vacancies'
     vacancies = []
     headers = {
@@ -36,6 +30,7 @@ def get_sj_vacancies(keyword: str, api_key: str):
             break
     return vacancies
 
+
 def predict_sj_salary(vacancy):
     if vacancy['currency'] != 'rub':
         return None
@@ -46,6 +41,10 @@ def predict_sj_salary(vacancy):
 
 
 def analyze_sj_vacancies(keywords: list, api_key: str):
+    '''Takes list of jobs_descriptions (keywords),
+    get list of vacancies for each keyword from SJ
+    and returns dictionary with salary analytics (mean salary)
+    '''
     result = dict()
     for keyword in keywords:
         vacancies = get_sj_vacancies(keyword, api_key)
@@ -61,8 +60,3 @@ def analyze_sj_vacancies(keywords: list, api_key: str):
                 "average_salary": int(mean(salaries))
             }
     return result
-
-
-if __name__ == '__main__':
-    res = analyze_sj_vacancies(keywords=KEYWORDS, api_key=SJ_API_KEY)
-    pprint.pprint(res)

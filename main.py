@@ -11,7 +11,8 @@ load_dotenv()
 
 SJ_API_KEY = os.getenv('SJ_API_KEY')
 
-KEYWORDS = ['Python', 'Java', 'Javascript', 'C++']
+# KEYWORDS = ['Python', 'Java', 'Javascript', 'C++']
+KEYWORDS = ['базовые станции']
         
 
 def main():

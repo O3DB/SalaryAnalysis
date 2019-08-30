@@ -14,17 +14,18 @@ def get_hh_vacancies(keyword: str):
     moscow_area_code = 1
     time_period_days = 30
 
-    for page in count(0):
+    for page_num in count(0):
         payload = {
         'text': keyword,
         'area': moscow_area_code,
         'period': time_period_days,
-        'page': page,
+        'page': page_num,
         }
         response = requests.get(url, params=payload)
-        if not response.ok or page >= response.json()['pages']:
-            break
+        response.raise_for_status()
         vacancies.extend(response.json()['items'])
+        if page >= response.json()['pages'] - 1:
+            break
 
     return vacancies
 

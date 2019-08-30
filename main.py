@@ -10,17 +10,16 @@ from tools import print_ascii_table_for_salaries
 
 
 load_dotenv()
-
 SJ_API_KEY = os.getenv('SJ_API_KEY')
 
-# KEYWORDS = ['Python', 'Java', 'Javascript', 'C++']
-KEYWORDS = ['базовые станции']
+KEYWORDS = ['Python', 'Java', 'Javascript', 'C++']
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
                     filename='my_script.log'
                     )
 logger = logging.getLogger(__name__)     
+
 
 def main():
     logger.info('Program started')

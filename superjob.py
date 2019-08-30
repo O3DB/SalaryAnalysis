@@ -42,10 +42,10 @@ def predict_sj_salary(vacancy):
 
 
 def analyze_sj_vacancies(keywords: list, api_key: str):
-    '''Takes list of jobs_descriptions (keywords),
+    """Takes list of jobs_descriptions (keywords),
     get list of vacancies for each keyword from SJ
     and returns dictionary with salary analytics (mean salary)
-    '''
+    """
     result = dict()
     for keyword in keywords:
         vacancies = get_sj_vacancies(keyword, api_key)

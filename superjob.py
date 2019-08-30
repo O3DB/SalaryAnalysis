@@ -55,6 +55,9 @@ def analyze_sj_vacancies(keywords: list, api_key: str):
             if not salary:
                 continue
             salaries.append(salary)
+
+            #add job analytics to resulting dict
+            #keyword is a job_description
             result[keyword] = {
                 "vacancies_found": len(vacancies),
                 "vacancies_processed": len(salaries),

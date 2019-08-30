@@ -8,17 +8,17 @@ from tools import predict_salary
 
 
 def get_sj_vacancies(keyword: str, api_key: str):
-    '''get list of vacancies from SJ API by keyword
-    for Moscow region
-    '''
+    """Get list of vacancies from SJ API by keyword for Moscow region"""
     url = 'https://api.superjob.ru/2.0/vacancies'
     vacancies = []
+    moscow_id = 4
     headers = {
         'X-Api-App-Id': api_key
     }
+
     for page in count(0):
         params = {
-            'town': 4,
+            'town': moscow_id,
             'keyword': keyword,
             'page': page,
         }
@@ -28,6 +28,7 @@ def get_sj_vacancies(keyword: str, api_key: str):
         vacancies.extend(response.json()['objects'])
         if not response.json()['more']:
             break
+            
     return vacancies
 
 

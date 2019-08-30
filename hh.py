@@ -8,17 +8,17 @@ from tools import predict_salary
 
 
 def get_hh_vacancies(keyword: str):
-    '''get list of vacancies from HH API by keyword
-    for Moscow region
-    '''
+    """Get list of vacancies from HH API by keyword for Moscow region"""
     url = 'https://api.hh.ru/vacancies'
     vacancies = []
+    moscow_area_code = 1
+    time_period_days = 30
 
     for page in count(0):
         payload = {
         'text': keyword,
-        'area': 1,
-        'period': 30,
+        'area': moscow_area_code,
+        'period': time_period_days,
         'page': page,
         }
         response = requests.get(url, params=payload)
@@ -44,10 +44,10 @@ def predict_hh_salary(vacancy):
 
 
 def analyze_hh_vacancies(keywords: list):
-    '''Takes list of jobs_descriptions (keywords),
+    """Takes list of jobs_descriptions (keywords),
     get list of vacancies for each keyword from HH
     and returns dictionary with salary analytics (mean salary)
-    '''
+    """
     result = dict()
     for keyword in keywords:
         vacancies = get_hh_vacancies(keyword)

@@ -7,8 +7,8 @@ import requests
 from tools import predict_salary
 
 
-def get_hh_vacancies(keyword: str):
-    """Get list of vacancies from HH API by keyword for Moscow region"""
+def get_hh_vacancies(job_description: str):
+    """Get list of vacancies from HH API by job_description for Moscow region"""
     url = 'https://api.hh.ru/vacancies'
     vacancies = []
     moscow_area_code = 1
@@ -16,7 +16,7 @@ def get_hh_vacancies(keyword: str):
 
     for page_num in count(0):
         payload = {
-        'text': keyword,
+        'text': job_description,
         'area': moscow_area_code,
         'period': time_period_days,
         'page': page_num,
@@ -44,23 +44,26 @@ def predict_hh_salary(vacancy):
         )
 
 
-def analyze_hh_vacancies(keywords: list):
-    """Takes list of jobs_descriptions (keywords),
-    get list of vacancies for each keyword from HH
+def analyze_hh_vacancies(job_descriptions: list):
+    """Takes list of jobs_descriptions (job_descriptions),
+    get list of vacancies for each job_description from HH
     and returns dictionary with salary analytics (mean salary)
     """
     result = dict()
-    for keyword in keywords:
-        vacancies = get_hh_vacancies(keyword)
+    for job_description in job_descriptions:
+        vacancies = get_hh_vacancies(job_description)
         salaries = []
         for vacancy in vacancies:
             salary = predict_hh_salary(vacancy)
             if not salary:
                 continue
             salaries.append(salary)
-            result[keyword] = {
+
+            #add job analytics to resulting dict
+            result[job_description] = {
                 "vacancies_found": len(vacancies),
                 "vacancies_processed": len(salaries),
                 "average_salary": int(mean(salaries))
             }
+            
     return result

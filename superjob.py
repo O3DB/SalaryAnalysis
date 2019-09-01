@@ -24,11 +24,11 @@ def get_sj_vacancies(keyword: str, api_key: str):
         }
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
-        vacancies.extend(response.json()['objects'])
 
-        if not response.json()['more']:
+        sj_data = response.json()
+        vacancies.extend(sj_data['objects'])
+        if not sj_data['more']:
             break
-
     return vacancies
 
 

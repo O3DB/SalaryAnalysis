@@ -32,5 +32,6 @@ def main():
     except (HTTPError, ConnectionError) as error:
         logger.error(error)
 
+
 if __name__ == '__main__':
     main()

@@ -24,9 +24,9 @@ def get_hh_vacancies(keyword: str):
         response = requests.get(url, params=payload)
         response.raise_for_status()
         
-        response_json = response.json()
-        vacancies.extend(response_json['items'])
-        if page_num >= response_json['pages'] - 1:
+        hh_data = response.json()
+        vacancies.extend(hh_data['items'])
+        if page_num >= hh_data['pages'] - 1:
             break
 
     return vacancies

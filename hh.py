@@ -51,21 +51,17 @@ def analyze_hh_vacancies(keywords: list):
     get list of vacancies for each keyword from HH
     and returns dictionary with salary analytics (mean salary)
     """
+    import time
+    start_time = time.time()
     result = dict()
     for keyword in keywords:
         vacancies = get_hh_vacancies(keyword)
-        salaries = []
-        for vacancy in vacancies:
-            salary = predict_hh_salary(vacancy)
-            if not salary:
-                continue
-            salaries.append(salary)
+        salaries = [predict_hh_salary(vacancy) for vacancy in vacancies]
+        salaries = [salary for salary in salaries if salary]
 
-            #add job analytics to resulting dict
-            #keyword is a job_description
-            result[keyword] = {
-                "vacancies_found": len(vacancies),
-                "vacancies_processed": len(salaries),
-                "average_salary": int(mean(salaries))
+        result[keyword] = {
+            "vacancies_found": len(vacancies),
+            "vacancies_processed": len(salaries),
+            "average_salary": int(mean(salaries))
             }
     return result

@@ -49,18 +49,12 @@ def analyze_sj_vacancies(keywords: list, api_key: str):
     result = dict()
     for keyword in keywords:
         vacancies = get_sj_vacancies(keyword, api_key)
-        salaries = []
-        for vacancy in vacancies:
-            salary = predict_sj_salary(vacancy)
-            if not salary:
-                continue
-            salaries.append(salary)
-
-            #add job analytics to resulting dict
-            #keyword is a job_description
-            result[keyword] = {
-                "vacancies_found": len(vacancies),
-                "vacancies_processed": len(salaries),
-                "average_salary": int(mean(salaries))
-            }
+        salaries = [predict_sj_salary(vacancy) for vacancy in vacancies]
+        salaries = [salary for salary in salaries if salary]
+       
+        result[keyword] = {
+            "vacancies_found": len(vacancies),
+            "vacancies_processed": len(salaries),
+            "average_salary": int(mean(salaries))
+        }
     return result
